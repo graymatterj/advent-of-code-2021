@@ -22,6 +22,28 @@ func countIncreasingDepths(scanner *bufio.Scanner) int {
 	return increaseDepthCount
 }
 
+func countIncreasingWindowedDepths(scanner *bufio.Scanner) int {
+	var depthCache[] int;
+	currentSum:=0
+	increaseDepthCount:=0
+	for scanner.Scan() {
+		currentLine:=scanner.Text()
+		currentNumber, _:=strconv.Atoi(currentLine)
+		depthCache = append(depthCache, currentNumber)
+		if len(depthCache) > 3 {
+			lastSum := currentSum
+			currentSum = currentSum - depthCache[0] + currentNumber
+			depthCache = depthCache[1:];
+			if currentSum > lastSum {
+				increaseDepthCount++
+			}
+		} else {
+			currentSum = currentSum + currentNumber
+		}
+    }
+	return increaseDepthCount
+}
+
 func main() {
 	file, err := os.Open("input-depths.txt")
     if err != nil {
@@ -29,7 +51,8 @@ func main() {
     }
 	
 	scanner := bufio.NewScanner(file)
-	fmt.Println(countIncreasingDepths(scanner))
+	// fmt.Println(countIncreasingDepths(scanner))
+	fmt.Println(countIncreasingWindowedDepths(scanner))
 
 	file.Close()
 }
