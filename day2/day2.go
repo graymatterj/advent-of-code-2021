@@ -1,61 +1,55 @@
 package main
 
 import (
+    "advent-of-code/common"
 	"bufio"
-	"fmt"
-	"log"
-	"os"
+    "fmt"
 	"strconv"
 	"strings"
 )
 
-func calculatePosition(scanner *bufio.Scanner) (horizontalPosition, depth, multiplication int) {
+const OUTPUT_STRING = "Horizontal position: %d; Depth: %d; Multiplication: %d"
+const UP, DOWN, FORWARD = "up","down","forward"
+
+func calculatePosition(scanner *bufio.Scanner) string {
+	var horizontalPosition, depth int
 	for scanner.Scan() {
 		inputString := scanner.Text()
 		fields := strings.Fields(inputString)
 		direction := fields[0]
 		quantity, _ := strconv.Atoi(fields[1])
-		if direction == "up" {
+		if direction == UP {
 			depth -= quantity
-		} else if direction == "down" {
+		} else if direction == DOWN {
 			depth += quantity
-		} else if direction == "forward" {
+		} else if direction == FORWARD {
 			horizontalPosition += quantity
 		}
 	}
-	multiplication = horizontalPosition * depth
-	return
+    return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition * depth )
 }
 
-func calculatePositionWithAim(scanner *bufio.Scanner) (horizontalPosition, depth, multiplication int) {
-	aim := 0
+func calculatePositionWithAim(scanner *bufio.Scanner) string {
+	var horizontalPosition, depth, aim int
 	for scanner.Scan() {
 		inputString := scanner.Text()
 		fields := strings.Fields(inputString)
 		direction := fields[0]
 		quantity, _ := strconv.Atoi(fields[1])
-		if direction == "up" {
+		if direction == UP {
 			aim -= quantity
-		} else if direction == "down" {
+		} else if direction == DOWN {
 			aim += quantity
-		} else if direction == "forward" {
+		} else if direction == FORWARD {
 			horizontalPosition += quantity
 			depth += aim * quantity
 		}
 	}
-	multiplication = horizontalPosition * depth
-	return
+    return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition * depth )
 }
 
 func main() {
-	file, err := os.Open("input-directions.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-	
-	scanner := bufio.NewScanner(file)
-	// fmt.Println(calculatePosition(scanner))
-	fmt.Println(calculatePositionWithAim(scanner))
-
-	file.Close()
+	inputFile := "input-directions.txt"
+	common.RunFunctionAgaisntFile(calculatePosition, inputFile)
+	common.RunFunctionAgaisntFile(calculatePositionWithAim, inputFile)
 }

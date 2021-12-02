@@ -1,14 +1,15 @@
 package main
 
 import (
+    "advent-of-code/common"
     "bufio"
     "fmt"
-    "log"
-    "os"
     "strconv"
 )
 
-func countIncreasingDepths(scanner *bufio.Scanner) int {
+const OUTPUT_STRING = "Number of increasing depths: %d"
+
+func countIncreasingDepths(scanner *bufio.Scanner) string {
     previousLine := 0
 	increaseDepthCount := -1 // Avoid counting the first depth as greater than 0
 	for scanner.Scan() {
@@ -18,11 +19,10 @@ func countIncreasingDepths(scanner *bufio.Scanner) int {
 		}
 		previousLine = currentNumber
     }
-
-	return increaseDepthCount
+	return fmt.Sprintf(OUTPUT_STRING, increaseDepthCount)
 }
 
-func countIncreasingWindowedDepths(scanner *bufio.Scanner) int {
+func countIncreasingWindowedDepths(scanner *bufio.Scanner) string {
 	var depthCache[] int;
 	currentSum:=0
 	increaseDepthCount:=0
@@ -41,18 +41,11 @@ func countIncreasingWindowedDepths(scanner *bufio.Scanner) int {
 			currentSum = currentSum + currentNumber
 		}
     }
-	return increaseDepthCount
+	return fmt.Sprintf(OUTPUT_STRING, increaseDepthCount)
 }
 
 func main() {
-	file, err := os.Open("input-depths.txt")
-    if err != nil {
-        log.Fatal(err)
-    }
-	
-	scanner := bufio.NewScanner(file)
-	// fmt.Println(countIncreasingDepths(scanner))
-	fmt.Println(countIncreasingWindowedDepths(scanner))
-
-	file.Close()
+	inputFile := "input-depths.txt"
+	common.RunFunctionAgaisntFile(countIncreasingDepths, inputFile)
+	common.RunFunctionAgaisntFile(countIncreasingWindowedDepths, inputFile)
 }
