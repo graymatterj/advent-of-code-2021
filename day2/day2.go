@@ -1,15 +1,15 @@
 package main
 
 import (
-    "advent-of-code/common"
+	"advent-of-code/common"
 	"bufio"
-    "fmt"
+	"fmt"
 	"strconv"
 	"strings"
 )
 
 const OUTPUT_STRING = "Horizontal position: %d; Depth: %d; Multiplication: %d"
-const UP, DOWN, FORWARD = "up","down","forward"
+const UP, DOWN, FORWARD = "up", "down", "forward"
 
 func calculatePosition(scanner *bufio.Scanner) string {
 	var horizontalPosition, depth int
@@ -26,7 +26,7 @@ func calculatePosition(scanner *bufio.Scanner) string {
 			horizontalPosition += quantity
 		}
 	}
-    return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition * depth )
+	return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition*depth)
 }
 
 func calculatePositionWithAim(scanner *bufio.Scanner) string {
@@ -45,7 +45,7 @@ func calculatePositionWithAim(scanner *bufio.Scanner) string {
 			depth += aim * quantity
 		}
 	}
-    return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition * depth )
+	return fmt.Sprintf(OUTPUT_STRING, horizontalPosition, depth, horizontalPosition*depth)
 }
 
 func main() {
